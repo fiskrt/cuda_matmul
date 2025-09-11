@@ -9,7 +9,7 @@ Compile and run locally
 Set `GPU_SM_ARCH` based on your GPU, e.g., for a H200 is use `GPU_SM_ARCH=90`
 Compile in debug mode without optimizations:
 ```bash
-nvcc \
+mkdir bin && nvcc \
     -arch=compute_${GPU_SM_ARCH} \
     -code=sm_${GPU_SM_ARCH},compute_${GPU_SM_ARCH} \
     -g \
@@ -20,9 +20,6 @@ nvcc \
     -o bin/matmul_binary \
     matmul.cu \
     matmul_host.cu \
-    -lcuda
-```
-and run with
-```bash
-./bin/matmul_binary
+    -lcuda \
+    && ./bin/matmul_binary
 ```
