@@ -17,8 +17,12 @@ nvcc \
     -Xcompiler -Og \
     -lineinfo \
     -v \
-    -o matmul_binary \
+    -o bin/matmul_binary \
     matmul.cu \
     matmul_host.cu \
     -lcuda
+```
+and run with
+```bash
+./bin/matmul_binary
 ```
