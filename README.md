@@ -1,7 +1,13 @@
+# What did I do?
+
+Implement the tiled matrix multiplication with NVIDIAs shared memory
+
 ## How to run
 #### Preferred (tested)
 
-Sign up to Modal Labs and run with `uv modal run run_on_modal.py`
+Sign up to Modal Labs and run with `uv modal run run_on_modal.py`.
+
+Is that it? Yes, one command to develop and debug on arbitrary NVIDIA hardware (A100, H100, H200, B200) for a few dollars per month.
 
 #### Locally
 If you have access to a nvidia gpu:

@@ -1,5 +1,9 @@
-
-
+/**
+ * Matmul kernels
+ *  - Naive
+ *  - Tiled
+ *  - Tiled + unroll
+ */
 
 __global__ void matmul_kernel(
     float *C, const float *A, const float *B,
@@ -22,7 +26,7 @@ __global__ void matmul_kernel(
 }
 
 
-#define TILE_SIZE 16
+template<int TILE_SIZE>
 __global__ void matmul_kernel_tiled(
     float *C, const float *A, const float *B,
     int M, int N, int K
@@ -38,7 +42,36 @@ __global__ void matmul_kernel_tiled(
     // Global row and column index of the element
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
+    int ty = threadIdx.y;
+    int tx = threadIdx.x;
 
-    int numTiles = 1;
+    // ceil(K / TILE_SIZE)
+    int numTiles = (K + TILE_SIZE - 1) / TILE_SIZE;
+    float acc = 0.f;
+
+    for (int i = 0; i < numTiles; i++){
+        // Load a single value into SMEM tile
+        // thread (tx, ty) is responsible for loading 
+        tileA[ty][tx] = A[row * K + col];
+
+        // Wait for all other threads in block to have put the GMEM cell into SMEM tile
+        // There are TILE_SIZE**2 threads
+        __syncthreads();
+
+        // tileA, tileB are now filled and we can compute the dot product
+        // Whether or not to unroll the compile-known constant TILE_SIZE
+        // #pragma unroll
+        for (int k = 0; k < TILE_SIZE; k++) {
+            acc += tileA[ty][k] * tileB[k][tx];
+        }
     
+        // wait for all threads in block to have finished computing.
+        // So we dont start overwriting memory in the next loop iteration
+        __syncthreads();
+    }
+
+    // epilogue: write back to GMEM
+    if (row < M && col < N) {
+        C[row * N + col] = acc;
+    }
 }

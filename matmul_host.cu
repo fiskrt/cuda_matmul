@@ -6,12 +6,9 @@
 #include <math.h>
 #include <iostream>
 
-//#include "matmul.cu"
+// Our kernel!
+#include "matmul.cu"
 
-__global__ void matmul_kernel(
-    float *C, const float *A, const float *B,
-    int M, int N, int K
-);
 
 void create_tensors(float **A, float **B, float **C, float **C_ref, int M, int N, int K) {
     size_t size_A = M * K * sizeof(float);
@@ -63,7 +60,6 @@ bool verify_result(const float *C_gpu, const float *C_cpu, int M, int N) {
     return true;
 }
 
-
 void get_sm_version() {
     int deviceCount = 0;
     cudaGetDeviceCount(&deviceCount);
@@ -86,7 +82,6 @@ void run(int block_size) {
     const int N = 4096; 
     
     printf("Multiplication: C(%dx%d) = A(%dx%d) * B(%dx%d)\n", M, N, M, K, K, N);
-    get_sm_version();
     
     float *h_A, *h_B, *h_C, *h_C_ref;
     float *d_A, *d_B, *d_C;
@@ -112,7 +107,18 @@ void run(int block_size) {
     cudaEventCreate(&stop);
     
     cudaEventRecord(start);
+    if (block_size == 8) {
+        printf("Running with block size %d (using tiled kernel)\n", block_size);
+        matmul_kernel_tiled<8><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+    } else if (block_size == 16) {
+        printf("Running with block size %d (using tiled kernel)\n", block_size);
+        matmul_kernel_tiled<16><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+    } else if (block_size == 32) {
+        printf("Running with block size %d (using tiled kernel)\n", block_size);
+        matmul_kernel_tiled<32><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+    } else {
     matmul_kernel<<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+    }
     cudaEventRecord(stop);
     // Get any errors from kernel, e.g. too large block size...
     cudaError_t err = cudaGetLastError();
@@ -158,7 +164,8 @@ void run(int block_size) {
 
 
 int main() {
-    run(32);
+    get_sm_version();
+    run(16);
     //for (int block_size : {4, 8, 16, 24, 25, 32, 40, 64}) {
     //    printf("\nRunning with block size %d...\n", block_size);
     //    run(block_size);

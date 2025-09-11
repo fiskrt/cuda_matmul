@@ -36,7 +36,7 @@ def main():
     output_path.write_bytes(prog)
 
     print(f"🔥 running our CUDA program on the base Modal image on {GPU_CONFIG}")
-    raw_cuda.remote(Path("matmul_binary").read_bytes())
+    raw_cuda.remote(Path("bin/matmul_binary").read_bytes())
 
 
 base_image = modal.Image.debian_slim(python_version="3.11")
@@ -96,9 +96,8 @@ def nvcc():
             "-lineinfo",  # add line numbers in machine code
             "-v",  # show verbose log output
             "-o",  # and send binary output to
-            "matmul_binary",  # a binary called invsqrt_demo
-            "matmul.cu",  # compiling the kernel
-            "matmul_host.cu",  # and the host code
+            "matmul_binary",  # the binary name
+            "matmul_host.cu",  # compiling the host code (which includes matmul.cu)
             "-lcuda",  # and linking in some symbols from the CUDA driver API
             # note that cudart is linked by default
         ],
