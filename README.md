@@ -1,11 +1,12 @@
+## How to run
+#### Preferred (tested)
+
+Sign up to Modal Labs and run with `uv modal run run_on_modal.py`
+
+#### Locally
 If you have access to a nvidia gpu:
-just compile and run locally
-
-
-
-If no access sign up to Modal Labs and use `uv modal run run_on_modal.py`
-
-Set your GPU_SM_ARCH based on your GPU, e.g., for a H200 is use `GPU_SM_ARCH=90`
+Compile and run locally
+Set `GPU_SM_ARCH` based on your GPU, e.g., for a H200 is use `GPU_SM_ARCH=90`
 Compile in debug mode without optimizations:
 ```bash
 nvcc \

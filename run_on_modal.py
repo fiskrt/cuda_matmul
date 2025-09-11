@@ -6,23 +6,23 @@ app = modal.App("cuda-matmul")
 GPU_CONFIG = "T4"
 COMPILE_CONFIG = GPU_CONFIG
 
-if COMPILE_CONFIG == "T4":
-    GPU_SM_ARCH = "75"  # Turing 12nm microarchitecture
-elif COMPILE_CONFIG == "A100":
-    GPU_SM_ARCH = "80"  # Ampere 7nm microarchitecture
-elif COMPILE_CONFIG == "A10G":
-    GPU_SM_ARCH = "86"  # Ampere 8nm microarchitecture
-elif COMPILE_CONFIG == "L4":
-    GPU_SM_ARCH = "89"  # Lovelace 5nm microarchitecture
-elif COMPILE_CONFIG in ["H100", "H200"]:
-    GPU_SM_ARCH = "90"  # Hopper 5nm microarchitecture
-elif COMPILE_CONFIG == "B200":
-    GPU_SM_ARCH = "120"
-    # not supported by 12.4 compiler
-else:
-    raise ValueError(
-        f"Not sure how to compile architecture-specific code for {COMPILE_CONFIG}"
-    )
+match COMPILE_CONFIG:
+    case "T4":
+        GPU_SM_ARCH = "75"      # Turing 12nm
+    case "A100":
+        GPU_SM_ARCH = "80"      # Ampere 7nm
+    case "A10G":
+        GPU_SM_ARCH = "86"      # Ampere 8nm
+    case "L4":
+        GPU_SM_ARCH = "89"      # Lovelace 5nm
+    case "H100" | "H200":
+        GPU_SM_ARCH = "90"      # Hopper 5nm
+    case "B200":
+        GPU_SM_ARCH = "120"     # Blackwell, not supported by 12.4 compiler
+    case _:
+        raise ValueError(
+            f"Not sure how to compile architecture-specific code for {COMPILE_CONFIG}"
+        )
 
 @app.local_entrypoint()
 def main():
@@ -51,14 +51,9 @@ def nvidia_smi():
 @app.function(gpu=GPU_CONFIG, image=base_image)
 def raw_cuda(prog: bytes):
     import subprocess
-
     filepath = Path("./prog")
-
-    # write the program to a file
     filepath.write_bytes(prog)
-    # make the program executable
     filepath.chmod(0o755)
-    # run it
     subprocess.run(["./prog"])
 
 
@@ -72,14 +67,12 @@ max_cuda_version = f"{major}-{minor}"
 cudatoolkit_image = (
     base_image.apt_install("wget")
     .run_commands(
-        [  # we need to get hold of NVIDIA's CUDA keyring to verify the installation
+        [
             f"wget {cuda_keyring_url}",
             f"dpkg -i {filename}",
-        ]  # otherwise we can't be sure the binaries are from NVIDIA
+        ]
     )
-    .apt_install(  # MUST BE <= 12.4
-        f"cuda-compiler-{max_cuda_version}",  # nvcc and dependencies
-    )
+    .apt_install(f"cuda-compiler-{max_cuda_version}")  # nvcc and dependencies
     .env({"PATH": "/usr/local/cuda/bin:$PATH"})
 )
 
