@@ -24,7 +24,6 @@ mkdir bin && nvcc \
     -lineinfo \
     -v \
     -o bin/matmul_binary \
-    matmul.cu \
     matmul_host.cu \
     -lcuda \
     && ./bin/matmul_binary
