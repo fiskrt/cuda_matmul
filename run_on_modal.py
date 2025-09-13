@@ -2,7 +2,6 @@ from pathlib import Path
 import modal
 
 app = modal.App("cuda-matmul")
-
 GPU_CONFIG = "T4"
 COMPILE_CONFIG = GPU_CONFIG
 
@@ -77,8 +76,7 @@ cudatoolkit_image = (
 )
 
 
-cudatoolkit_image = cudatoolkit_image.add_local_file("matmul.cu", "/root/matmul.cu")
-cudatoolkit_image = cudatoolkit_image.add_local_file("matmul_host.cu", "/root/matmul_host.cu")
+cudatoolkit_image = cudatoolkit_image.add_local_dir("src", "/root")
 @app.function(image=cudatoolkit_image)
 def nvcc():
     import subprocess
