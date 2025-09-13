@@ -76,7 +76,7 @@ cudatoolkit_image = (
 )
 
 
-cudatoolkit_image = cudatoolkit_image.add_local_dir("src", "/root")
+cudatoolkit_image = cudatoolkit_image.add_local_dir("cuda", "/root")
 @app.function(image=cudatoolkit_image)
 def nvcc():
     import subprocess
