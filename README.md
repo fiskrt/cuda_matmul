@@ -1,6 +1,22 @@
 # What did I do?
 
-Implement the tiled matrix multiplication with NVIDIAs shared memory
+Implement matrix multiplication with shared memory memory tiles. All experiements are run on NVIDIA GPUs.
+
+### Results
+
+![img](./figures/h100.png)
+These are the results on an H100 between the naive and the tiled algorithm for different block sizes. NOTE: block sizes are squared so 16 means 16x16 for example.
+
+Where the naive reaches almost 6 TFLOPS while tiled reaches 9 TFLOPS.
+Only reaching around 10% of the peak f32 performance (67 TFLOPS) (If using tensor-cores it's another story).
+
+The right side shows that the unroll has no effect. This is expected looking at the ptx code since the compiler is able to unroll the loop automatically.
+
+
+![img](./figures/all4.png)
+Here we see the two algorithms run on different GPUs. 
+
+
 
 ## How to run
 #### Preferred (tested)
