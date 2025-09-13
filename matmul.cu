@@ -39,7 +39,6 @@ __global__ void matmul_kernel_tiled(
     __shared__ float tileA[TILE_SIZE][TILE_SIZE];
     __shared__ float tileB[TILE_SIZE][TILE_SIZE];
 
-    // Global row and column index of the element
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
     int ty = threadIdx.y;
@@ -52,7 +51,17 @@ __global__ void matmul_kernel_tiled(
     for (int i = 0; i < numTiles; i++){
         // Load a single value into SMEM tile
         // thread (tx, ty) is responsible for loading 
-        tileA[ty][tx] = A[row * K + col];
+        // Which value are we loading into SMEM? 
+
+        // TODO: remember to write 0 if oob
+        // In total every block we launch is ts x ts. So the MxN matrix is tiled with ts x ts blocks. 
+        
+        // tileA should be cover the the whole width of A (which is K elements wide). 
+        // so we must find how far down the tile is (which row it's on)
+        // the row is fixed for A, and the column is incremented by ts every it.
+        tileA[ty][tx] = A[row * K + i * TILE_SIZE + tx];
+        // the column is fixed for B, and the row is incremented by ts every it.
+        tileB[ty][tx] = B[col + (i * TILE_SIZE + ty) * N];
 
         // Wait for all other threads in block to have put the GMEM cell into SMEM tile
         // There are TILE_SIZE**2 threads
@@ -60,7 +69,7 @@ __global__ void matmul_kernel_tiled(
 
         // tileA, tileB are now filled and we can compute the dot product
         // Whether or not to unroll the compile-known constant TILE_SIZE
-        // #pragma unroll
+        #pragma unroll
         for (int k = 0; k < TILE_SIZE; k++) {
             acc += tileA[ty][k] * tileB[k][tx];
         }

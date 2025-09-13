@@ -76,10 +76,11 @@ void get_sm_version() {
 }
 
 
-void run(int block_size) {
+void run(int block_size, const std::string& alg) {
     const int M = 4096;
     const int K = 10240;
     const int N = 4096; 
+    constexpr float FLOP = 2.0f * M * N * K;
     
     printf("Multiplication: C(%dx%d) = A(%dx%d) * B(%dx%d)\n", M, N, M, K, K, N);
     
@@ -107,17 +108,18 @@ void run(int block_size) {
     cudaEventCreate(&stop);
     
     cudaEventRecord(start);
-    if (block_size == 8) {
-        printf("Running with block size %d (using tiled kernel)\n", block_size);
-        matmul_kernel_tiled<8><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
-    } else if (block_size == 16) {
-        printf("Running with block size %d (using tiled kernel)\n", block_size);
-        matmul_kernel_tiled<16><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
-    } else if (block_size == 32) {
-        printf("Running with block size %d (using tiled kernel)\n", block_size);
-        matmul_kernel_tiled<32><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
-    } else {
-    matmul_kernel<<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+    if (alg == "naive") {
+        printf("Running with block size %d (using naive kernel)\t", block_size);
+        matmul_kernel<<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+    } else if (alg == "tiled") {
+        printf("Running with block size %d (using tiled kernel)\t", block_size);
+        if (block_size == 8) {
+            matmul_kernel_tiled<8><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+        } else if (block_size == 16) {
+            matmul_kernel_tiled<16><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+        } else if (block_size == 32) {
+            matmul_kernel_tiled<32><<<gridSize, blockSize>>>(d_C, d_A, d_B, M, N, K);
+        } 
     }
     cudaEventRecord(stop);
     // Get any errors from kernel, e.g. too large block size...
@@ -130,10 +132,11 @@ void run(int block_size) {
     
     float gpu_time;
     cudaEventElapsedTime(&gpu_time, start, stop);
-    
     cudaMemcpy(h_C, d_C, size_C, cudaMemcpyDeviceToHost);
     
-    printf("GPU Time: %.2f ms\n", gpu_time);
+    float gflops = FLOP / (gpu_time * 1e6f);
+    printf("GPU Time: %.2f ms\t", gpu_time);
+    printf("GFLOPS: %.2f GF32LOP/s\n", gflops);
     if (M <= 1024 && N <= 1024 && K <= 1024) {
         clock_t cpu_start = clock();
         cpu_matmul(h_C_ref, h_A, h_B, M, N, K);
@@ -165,10 +168,9 @@ void run(int block_size) {
 
 int main() {
     get_sm_version();
-    run(16);
-    //for (int block_size : {4, 8, 16, 24, 25, 32, 40, 64}) {
-    //    printf("\nRunning with block size %d...\n", block_size);
-    //    run(block_size);
-    //}
+    for (int bs : {8, 16, 32}) {
+        run(bs, "naive");
+        run(bs, "tiled");
+    }
     return 0;
 }
