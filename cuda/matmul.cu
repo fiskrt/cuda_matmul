@@ -53,15 +53,28 @@ __global__ void matmul_kernel_tiled(
         // thread (tx, ty) is responsible for loading 
         // Which value are we loading into SMEM? 
 
-        // TODO: remember to write 0 if oob
         // In total every block we launch is ts x ts. So the MxN matrix is tiled with ts x ts blocks. 
         
         // tileA should be cover the the whole width of A (which is K elements wide). 
         // so we must find how far down the tile is (which row it's on)
         // the row is fixed for A, and the column is incremented by ts every it.
-        tileA[ty][tx] = A[row * K + i * TILE_SIZE + tx];
+
+
+        // Handle case where TILE_SIZE does not divide K
+        int colA = i * TILE_SIZE + tx;
+        if (row < M && colA < K){
+            tileA[ty][tx] = A[row * K + colA];
+        } else {
+            tileA[ty][tx] = 0.f;
+        }
+        
         // the column is fixed for B, and the row is incremented by ts every it.
-        tileB[ty][tx] = B[col + (i * TILE_SIZE + ty) * N];
+        int rowB = i * TILE_SIZE + ty;
+        if (rowB < K && col < N) {
+            tileB[ty][tx] = B[rowB * N + col];
+        } else {
+            tileB[ty][tx] = 0.f;
+        }
 
         // Wait for all other threads in block to have put the GMEM cell into SMEM tile
         // There are TILE_SIZE**2 threads
