@@ -1,0 +1,170 @@
+unroll=1 opt=0
+GPU 0: Tesla T4, Compute Capability: 7.5
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 1391.16 ms    GFLOPS: 246.99 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 781.77 ms     GFLOPS: 439.51 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 768.19 ms     GFLOPS: 447.28 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 485.02 ms     GFLOPS: 708.42 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 558.63 ms     GFLOPS: 615.07 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 367.87 ms     GFLOPS: 934.01 GF32LOP/s
+
+GPU 0: NVIDIA A100-SXM4-40GB, Compute Capability: 8.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 247.12 ms     GFLOPS: 1390.39 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 119.68 ms     GFLOPS: 2870.92 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 144.52 ms     GFLOPS: 2377.54 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 73.07 ms      GFLOPS: 4702.62 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 113.25 ms     GFLOPS: 3033.91 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 64.82 ms      GFLOPS: 5301.11 GF32LOP/s
+
+GPU 0: NVIDIA H100 80GB HBM3, Compute Capability: 9.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 103.30 ms     GFLOPS: 3326.29 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 66.57 ms      GFLOPS: 5161.63 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 69.43 ms      GFLOPS: 4948.95 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 42.12 ms      GFLOPS: 8157.60 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 58.21 ms      GFLOPS: 5902.50 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 37.99 ms      GFLOPS: 9043.80 GF32LOP/s
+
+GPU 0: NVIDIA H200, Compute Capability: 9.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 103.58 ms     GFLOPS: 3317.20 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 66.87 ms      GFLOPS: 5138.04 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 70.40 ms      GFLOPS: 4880.42 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 42.36 ms      GFLOPS: 8111.68 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 58.75 ms      GFLOPS: 5848.69 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 38.64 ms      GFLOPS: 8892.75 GF32LOP/s
+
+unroll=1 opt=1
+GPU 0: Tesla T4, Compute Capability: 7.5
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 1373.01 ms    GFLOPS: 250.25 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 781.31 ms     GFLOPS: 439.77 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 768.06 ms     GFLOPS: 447.36 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 482.43 ms     GFLOPS: 712.23 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 549.75 ms     GFLOPS: 625.01 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 362.70 ms     GFLOPS: 947.33 GF32LOP/s
+
+GPU 0: NVIDIA A100-SXM4-40GB, Compute Capability: 8.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 250.63 ms     GFLOPS: 1370.91 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 119.51 ms     GFLOPS: 2875.03 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 143.88 ms     GFLOPS: 2388.05 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 72.91 ms      GFLOPS: 4712.80 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 112.96 ms     GFLOPS: 3041.75 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 64.68 ms      GFLOPS: 5312.49 GF32LOP/s
+
+GPU 0: NVIDIA H100 80GB HBM3, Compute Capability: 9.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 102.47 ms     GFLOPS: 3353.10 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 66.06 ms      GFLOPS: 5201.68 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 69.22 ms      GFLOPS: 4963.71 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 41.82 ms      GFLOPS: 8215.24 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 58.11 ms      GFLOPS: 5912.92 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 37.80 ms      GFLOPS: 9090.99 GF32LOP/s
+
+GPU 0: NVIDIA H200, Compute Capability: 9.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 103.59 ms     GFLOPS: 3316.75 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 66.87 ms      GFLOPS: 5138.43 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 70.37 ms      GFLOPS: 4882.61 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 42.37 ms      GFLOPS: 8110.02 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 58.71 ms      GFLOPS: 5852.51 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 38.63 ms      GFLOPS: 8893.50 GF32LOP/s
+
+unroll=0 opt=0
+GPU 0: Tesla T4, Compute Capability: 7.5
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 1384.51 ms    GFLOPS: 248.17 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 779.75 ms     GFLOPS: 440.65 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 773.30 ms     GFLOPS: 444.32 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 482.66 ms     GFLOPS: 711.88 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 556.36 ms     GFLOPS: 617.58 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 364.93 ms     GFLOPS: 941.55 GF32LOP/s
+
+GPU 0: NVIDIA A100-SXM4-40GB, Compute Capability: 8.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 250.50 ms     GFLOPS: 1371.67 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 119.96 ms     GFLOPS: 2864.28 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 144.39 ms     GFLOPS: 2379.64 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 72.96 ms      GFLOPS: 4709.65 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 113.14 ms     GFLOPS: 3036.91 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 64.70 ms      GFLOPS: 5310.41 GF32LOP/s
+
+GPU 0: NVIDIA H100 80GB HBM3, Compute Capability: 9.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 103.20 ms     GFLOPS: 3329.31 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 66.55 ms      GFLOPS: 5163.04 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 69.44 ms      GFLOPS: 4947.93 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 42.13 ms      GFLOPS: 8155.01 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 58.20 ms      GFLOPS: 5904.16 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 38.03 ms      GFLOPS: 9034.63 GF32LOP/s
+
+GPU 0: NVIDIA H200, Compute Capability: 9.0
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using naive kernel)  GPU Time: 103.59 ms     GFLOPS: 3316.79 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 8 (using tiled kernel)  GPU Time: 66.86 ms      GFLOPS: 5138.95 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using naive kernel) GPU Time: 70.41 ms      GFLOPS: 4879.80 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 16 (using tiled kernel) GPU Time: 42.35 ms      GFLOPS: 8112.66 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using naive kernel) GPU Time: 58.73 ms      GFLOPS: 5850.08 GF32LOP/s
+Multiplication: C(4096x4096) = A(4096x10240) * B(10240x4096)
+Running with block size 32 (using tiled kernel) GPU Time: 38.63 ms      GFLOPS: 8894.40 GF32LOP/s
