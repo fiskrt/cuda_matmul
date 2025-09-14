@@ -162,8 +162,37 @@ def plot_h100_comparison(df):
     plt.tight_layout()
     plt.show()
 
+
+def plot_speedup_comparison(df):
+    fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+    
+    naive_data = df[df['kernel_type'] == 'naive']
+    tiled_data = df[df['kernel_type'] == 'tiled']
+    
+    # Plot speedup factor for each GPU
+    for gpu in df['gpu'].unique():
+        gpu_naive = naive_data[naive_data['gpu'] == gpu].sort_values('block_size')
+        gpu_tiled = tiled_data[tiled_data['gpu'] == gpu].sort_values('block_size')
+        
+        # Merge on block_size to ensure matching pairs
+        merged = gpu_naive.merge(gpu_tiled, on=['gpu', 'block_size'], suffixes=('_naive', '_tiled'))
+        if not merged.empty:
+            speedup = merged['gflops_tiled'] / merged['gflops_naive']
+            ax.plot(merged['block_size'], speedup, marker='o', label=gpu)
+    
+    ax.set_xlabel('Block Size')
+    ax.set_ylabel('Speedup Factor (Tiled/Naive)')
+    ax.set_title('Tiled vs Naive: Speedup Factor')
+    ax.set_xticks([8, 16, 32])
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+
 # Usage
-df = parse_gpu_benchmarks('log.txt')
+df = parse_gpu_benchmarks('figures/log.txt')
+plot_speedup_comparison(df)
 print(df.head())
 plot_benchmarks(df)
 plot_h100_comparison(df)

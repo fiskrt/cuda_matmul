@@ -16,6 +16,9 @@ The right side shows that the unroll has no effect. This is expected looking at 
 ![img](./figures/all4.png)
 Here we see the two algorithms run on different GPUs. 
 
+![img](./figures/rel_speedup.png)
+The A100 saw the biggest relative speedup going from naive to tiled.
+
 
 
 ## How to run
